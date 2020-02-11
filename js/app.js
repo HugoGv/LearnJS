@@ -1,43 +1,42 @@
-const totalZombies = document.querySelector('.total-zombies'),
-      deadZombies = document.querySelector('.dead-zombies'),
-      smallZombies = document.querySelector('.small-zombies'),
-      madZombies = document.querySelector('.mad-zombies'),
-      strongZombies = document.querySelector('.strong-zombies');
+const totalZombies = document.querySelector('.total-zombies');
+const deadZombies = document.querySelector('.dead-zombies');
+const smallZombies = document.querySelector('.small-zombies');
+const madZombies = document.querySelector('.mad-zombies');
+const strongZombies = document.querySelector('.strong-zombies');
 
-let totalZombiesCount = 0,
-    deadZombiesCount = 0,
-    smallZombiesCount = 0,
-    madZombiesCount = 0,
-    strongZombiesCount = 0;
+let totalZombiesCount = 0;
+let deadZombiesCount = 0;
+let smallZombiesCount = 0;
+let madZombiesCount = 0;
+let strongZombiesCount = 0;
 
-countZombieType = (zombies) => {
-    for (let i = 0; i < zombies.length; i++) {
-        let zombie = zombies[i];
+for (const index in zombiesData) {
+    const zombie = zombiesData[index];
 
-        let isNumber = typeof zombie === 'number';
+    const isNumber = isNaN(zombie);
 
-        let isDeadZombie = zombie > 0 && zombie < 11;
-        let isSmallZombie = zombie > 10 && zombie < 21;
-        let isStrongZombie = zombie > 20;
+    const isDeadZombie = !isNumber || zombie < 1;
+    const isSmallZombie = isNumber && (zombie > 0 && zombie < 11);
+    const isMadZombie = isNumber && (zombie > 10 && zombie < 21);
+    const isStrongZombie = isNumber && zombie > 20;
 
-        if (zombie < 1) {
-            deadZombiesCount++;
-        } else if (isNumber && isDeadZombie) {
-            smallZombiesCount++;
-        } else if (isNumber && isSmallZombie) {
-            madZombiesCount++;
-        } else if (isNumber && isStrongZombie) {
-            strongZombiesCount++;
-        }
-
-        totalZombiesCount++;
+    if (isDeadZombie) {
+        deadZombiesCount++;
+    } else if (isSmallZombie) {
+        smallZombiesCount++;
+    } else if (isMadZombie) {
+        madZombiesCount++;
+    } else if (isStrongZombie) {
+        strongZombiesCount++;
     }
-};
 
-countZombieType(zombiesData);
+    totalZombiesCount++;
+}
 
 totalZombies.textContent = totalZombies.textContent + '{' + totalZombiesCount + '}';
 deadZombies.textContent = deadZombies.textContent + '{' + deadZombiesCount + '}';
 smallZombies.textContent = smallZombies.textContent + '{' + smallZombiesCount + '}';
 madZombies.textContent = madZombies.textContent + '{' + madZombiesCount + '}';
 strongZombies.textContent = strongZombies.textContent + '{' + strongZombiesCount + '}';
+
+console.log(document.getElementsByTagName('body')[0].innerText);
