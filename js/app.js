@@ -13,7 +13,7 @@ let strongZombiesCount = 0;
 for (const index in zombiesData) {
     const zombie = zombiesData[index];
 
-    const isNumber = isNaN(zombie);
+    const isNumber = !isNaN(zombie);
 
     const isDeadZombie = !isNumber || zombie < 1;
     const isSmallZombie = isNumber && (zombie > 0 && zombie < 11);
@@ -33,10 +33,16 @@ for (const index in zombiesData) {
     totalZombiesCount++;
 }
 
-totalZombies.textContent = totalZombies.textContent + '{' + totalZombiesCount + '}';
-deadZombies.textContent = deadZombies.textContent + '{' + deadZombiesCount + '}';
-smallZombies.textContent = smallZombies.textContent + '{' + smallZombiesCount + '}';
-madZombies.textContent = madZombies.textContent + '{' + madZombiesCount + '}';
-strongZombies.textContent = strongZombies.textContent + '{' + strongZombiesCount + '}';
+const totalZombiesText = `${totalZombies.textContent} {${totalZombiesCount}}`;
+const deadZombiesText = `${deadZombies.textContent} {${deadZombiesCount}}`;
+const smallZombiesText = `${smallZombies.textContent} {${smallZombiesCount}}`;
+const madZombiesText = `${madZombies.textContent} {${madZombiesCount}}`;
+const strongZombiesText = `${strongZombies.textContent} {${strongZombiesCount}}`;
+
+totalZombies.textContent = totalZombiesText;
+deadZombies.textContent = deadZombiesText;
+smallZombies.textContent = smallZombiesText;
+madZombies.textContent = madZombiesText;
+strongZombies.textContent = strongZombiesText;
 
 console.log(document.getElementsByTagName('body')[0].innerText);
