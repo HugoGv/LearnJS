@@ -1,0 +1,26 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.zombies {
+    display: flex;
+    width: 400px;
+    justify-content: space-around;
+}
+
+.zombies .zombie-item {
+    width: 120px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+
+.zombies .zombie-item img {
+    height: 120px;
+}
