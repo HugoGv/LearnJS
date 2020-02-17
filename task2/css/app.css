@@ -21,6 +21,18 @@
     cursor: pointer;
 }
 
-.zombies .zombie-item img {
-    height: 120px;
+.zombie-small {
+    background: url("../icons/zombie-small.gif") center no-repeat;
+}
+
+.zombie-mad {
+    background: url("../icons/zombie-mad.gif") center no-repeat;
+}
+
+.zombie-strong {
+    background: url("../icons/zombie-strong.gif") center no-repeat;
+}
+
+.zombie-item.zombie-dead {
+    background: url("../icons/zombie-dead.gif") center no-repeat;
 }
