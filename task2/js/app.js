@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const zombieElement = document.createElement('div');
         zombieElement.classList.add('zombie-item', zombie.icons);
 
-        zombieElement.onclick = function() {
+        zombieElement.addEventListener('click', function() {
             this.classList.add('zombie-dead');
-        };
+        });
 
         wrapper.appendChild(zombieElement);
     }
