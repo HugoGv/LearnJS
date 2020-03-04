@@ -1,72 +1,116 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    let index = 0;
-    const zombieAll = [];
+    let count = 1;
 
-    function zombieCreate(zombie, img) {
-        const takingDamage = (zombie, damage) => {
-            zombie.health = zombie.health - damage;
+    let zombieSmall;
+    let zombieMad;
+    let zombieStrong;
+
+    function Zombie() {
+        this.wrapper = document.getElementById('zombies');
+        this.healthWrapper = document.createElement('div');
+        this.healthBar = document.createElement('div');
+        this.zombieElement = document.createElement('div');
+        this.hitDamage = HIT_DAMAGE;
+
+        this.zombieRender = () => {
+            this.wrapper.innerHTML = "";
+
+            this.healthWrapper.classList.add('health-wrapper');
+            this.healthBar.classList.add('health');
+            this.healthWrapper.appendChild(this.healthBar);
+
+            this.zombieElement.classList.add('zombie-item', this.icon);
+
+            this.wrapper.appendChild(this.healthWrapper);
+            this.wrapper.appendChild(this.zombieElement);
+
+            this.zombieElement.addEventListener('click', () => {
+                this.takingDamage();
+            });
         };
 
-        const icon = {img};
+        this.takingDamage = () => {
+            if ((this.health - this.hitDamage) >= 0) {
+                this.health = this.health - this.hitDamage;
 
-        return {
-            takingDamage,
-            ...icon,
-            ...zombie
-        }
+                this.healthBar.style.width = `${this.healthBar.offsetWidth - this.damagePercentCalc}px`;
+            } else {
+                this.zombieElement.classList.add('zombie-dead');
+                this.healthBar.style.width = '0px';
+
+                setTimeout(()=> {
+                    if (count < zombies.length) {
+                        count++;
+
+                        countZombie(count);
+                    } else {
+                        doneRender();
+                    }
+                }, 2000)
+            }
+        };
+    }
+
+    function ZombieSmall(zombieItem) {
+        Zombie.call(this);
+
+        this.type = zombieItem.type;
+        this.health = zombieItem.health;
+        this.icon = 'zombie-small';
+        this.damagePercentCalc = (this.hitDamage/this.health)*100;
+
+    }
+
+    function ZombieMad(zombieItem) {
+        Zombie.call(this);
+
+        this.type = zombieItem.type;
+        this.health = zombieItem.health;
+        this.icon = 'zombie-mad';
+        this.damagePercentCalc = (this.hitDamage/this.health)*100;
+    }
+
+    function ZombieStrong(zombieItem) {
+        Zombie.call(this);
+
+        this.type = zombieItem.type;
+        this.health = zombieItem.health;
+        this.icon = 'zombie-strong';
+        this.damagePercentCalc = (this.hitDamage/this.health)*100;
     }
 
     const setZombie = (zombies) => {
         for (const index in zombies) {
             const zombieItem = zombies[index];
-            let zombie;
 
             switch (zombieItem.type) {
                 case ZOMBIE_TYPE.SMALL:
-                    zombie = zombieCreate(zombieItem, 'zombie-small');
+                    zombieSmall = new ZombieSmall(zombieItem);
                     break;
                 case ZOMBIE_TYPE.MAD:
-                    zombie = zombieCreate(zombieItem, 'zombie-mad');
+                    zombieMad = new ZombieMad(zombieItem);
                     break;
                 case ZOMBIE_TYPE.STRONG:
-                    zombie = zombieCreate(zombieItem, 'zombie-strong');
+                    zombieStrong = new ZombieStrong(zombieItem);
             }
-
-            zombieAll.push(zombie);
         }
+
     };
 
-    const healthBarRender = () => {
-        const healthWrapper = document.createElement('div');
-        const health = document.createElement('div');
+    const countZombie = (type) => {
+        switch (type) {
+            case ZOMBIE_TYPE.SMALL:
+                zombieSmall.zombieRender();
+                break;
+            case ZOMBIE_TYPE.MAD:
+                zombieMad.zombieRender();
+                break;
+            case ZOMBIE_TYPE.STRONG:
+                zombieStrong.zombieRender();
+        }
 
-        healthWrapper.classList.add('health-wrapper');
-        health.classList.add('health');
-        healthWrapper.appendChild(health);
-
-        return healthWrapper;
-    };
-
-    const zombieRender = (index) => {
-        const wrapper = document.getElementById('zombies');
-
-        wrapper.innerHTML = "";
-
-        const zombieElement = document.createElement('div');
-
-        zombieElement.classList.add('zombie-item', zombieAll[index].img);
-
-        wrapper.appendChild(healthBarRender());
-        wrapper.appendChild(zombieElement);
-
-        const dd = damagePercentCalc(HIT_DAMAGE, zombieAll[index].health);
-
-        zombieElement.addEventListener('click', () => {
-            hitDamage(zombieAll[index], zombieElement, dd, HIT_DAMAGE)
-        });
-
-        counterRender(index + 1);
+        counterRender(type);
     };
 
     const counterRender = (count) => {
@@ -76,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const totalCountRender = () => {
         const element = document.getElementById('zombies-status').lastElementChild;
-        element.innerText = `${zombieAll.length}`;
+        element.innerText = `${zombies.length}`;
     };
 
     const doneRender = () => {
@@ -84,34 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.innerHTML = 'Done';
     };
 
-    const damagePercentCalc = (damage, health) => {
-        return (damage/health)*100;
-    };
-
-    const hitDamage = (zombie, zombieElement, dd, damage) => {
-        const health = document.querySelector('.health');
-
-        if (zombie.health - damage >= 0) {
-            zombie.takingDamage(zombie, damage);
-
-            health.style.width = `${health.offsetWidth - dd}px`;
-        } else {
-            zombieElement.classList.add('zombie-dead');
-            health.style.width = '0px';
-
-            setTimeout(()=> {
-                if ((index + 1) < zombieAll.length) {
-                    index++;
-
-                    zombieRender(index);
-                } else {
-                    doneRender();
-                }
-            }, 2000)
-        }
-    };
-
     setZombie(zombies);
-    zombieRender(index);
+    countZombie(count);
     totalCountRender();
 });
