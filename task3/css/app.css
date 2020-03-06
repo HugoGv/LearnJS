@@ -1,0 +1,74 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', serif;
+    color: #5a5a5a;
+}
+
+.zombies {
+    width: 140px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    flex-direction: column;
+}
+
+
+.health-wrapper {
+    width: 102px;
+    height: 8px;
+    border: 1px solid #b4b4b4;
+    display: flex;
+}
+
+.health {
+    width: 100px;
+    background-color: #34f734;
+    transition: width .3s ease;
+}
+
+
+.zombies .zombie-item {
+    width: 120px;
+    height: 150px;
+    cursor: pointer;
+}
+
+.zombie-small {
+    background: url("../icons/zombie-small.gif") center no-repeat;
+}
+
+.zombie-mad {
+    background: url("../icons/zombie-mad.gif") center no-repeat;
+}
+
+.zombie-strong {
+    background: url("../icons/zombie-strong.gif") center no-repeat;
+}
+
+.zombie-item.zombie-dead {
+    background: url("../icons/zombie-dead.gif") center no-repeat;
+}
+
+.zombies-status {
+    width: 120px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.done {
+    font-size: 34px;
+}
